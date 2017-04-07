@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Generators
 {
@@ -9,7 +8,10 @@ namespace Generators
         {
             int intValue;
 
-             while (!int.TryParse(Console.ReadLine(), out intValue)) { /*Do nothing*/}
+            while (!int.TryParse(Console.ReadLine(), out intValue))
+            {
+                /*Do nothing*/
+            }
 
             Console.WriteLine(@"Constant : {0}", new ConstGeneratorFabric().Generator(intValue).Next);
             Console.WriteLine(@"Constant : {0}", new CounterGeneratorFabric().Generator(intValue).Next);
@@ -26,7 +28,8 @@ namespace Generators
     {
         int Next { get; }
     }
-    internal interface IGeneratorFabric<out T> where T : class
+
+    internal interface IGeneratorFabric<out T>
     {
         T Generator(int inputValue);
     }
@@ -36,20 +39,22 @@ namespace Generators
     /// </summary>
     internal class ConstGenerator
     {
-        public readonly int Next;
+        public int Next { get; }
 
         public ConstGenerator(int inputValue)
         {
             Next = inputValue;
         }
     }
+
     internal class CounterGenerator
     {
-        public readonly int Next;
+        private int _next;
+        public int Next => _next++;
 
-        public CounterGenerator(int inputValue)
+        public CounterGenerator(int inputValue = 0)
         {
-            Next = inputValue + 1;
+            _next = inputValue;
         }
     }
 
@@ -64,6 +69,7 @@ namespace Generators
             return new ConstGenerator(inputValue);
         }
     }
+
     internal class CounterGeneratorFabric : IGeneratorFabric<CounterGenerator>
     {
         public CounterGenerator Generator(int inputValue)
