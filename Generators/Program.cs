@@ -20,8 +20,13 @@ namespace Generators
                 /*Do nothing*/
             }
 
-            Console.WriteLine(@"Constant : {0}", new ConstGeneratorFabric().Generator(intValue).Next);
-            Console.WriteLine(@"Counter: {0}", new CounterGeneratorFabric().Generator(intValue).Next);
+
+            var constGenerator = new ConstGeneratorFabric().Generator(intValue);
+            var counterGenerator = new CounterGeneratorFabric().Generator(intValue);
+
+
+            Console.WriteLine(@"Constant : {0}", constGenerator.Next);
+            Console.WriteLine(@"Counter: {0}", counterGenerator.Next);
 
             Console.ReadKey();
         }
@@ -34,13 +39,17 @@ namespace Generators
 
 
     /// <summary>
-    /// Interfaces of Generators and Fabrics.
+    /// Interface of Generator.
     /// </summary>
     internal interface IGenerator
     {
         int Next { get; }
     }
 
+    /// <summary>
+    /// Interface of Fabric of Generators.
+    /// </summary>
+    /// <typeparam name="T">Type of Generator (Const or Counter).</typeparam>
     internal interface IGeneratorFabric<out T>
     {
         T Generator(int inputValue);
@@ -52,26 +61,42 @@ namespace Generators
 
 
     /// <summary>
-    /// Generators of integer value.
+    /// Constant int generator. Field "Next" contains constant, which was submitted to it.
     /// </summary>
     internal class ConstGenerator
     {
+        /// <summary>
+        /// Contains generated value, which is next to inputted Value.
+        /// </summary>
         public int Next { get; }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputValue">Value to generate and hold into "Next" field.</param>
         public ConstGenerator(int inputValue = 0)
         {
             Next = inputValue;
         }
     }
 
+    /// <summary>
+    /// Counter int generator. Field "Next" contains number, which is next to submitted int.
+    /// </summary>
     internal class CounterGenerator
     {
-        private int _next;
-        public int Next => _next++;
+        /// <summary>
+        /// Contains constant value, which is inpputed on CounterGenerator instance creation.
+        /// </summary>
+        public int Next;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputValue">Value to generate and hold into "Next" field.</param>
         public CounterGenerator(int inputValue = 0)
         {
-            _next = inputValue;
+            Next = inputValue + 1;
         }
     }
 
@@ -81,18 +106,31 @@ namespace Generators
 
 
     /// <summary>
-    /// Fabrics of Generators.
+    /// Fabric of Const Generators.
     /// </summary>
     internal class ConstGeneratorFabric : IGeneratorFabric<ConstGenerator>
     {
+        /// <summary>
+        /// Constant generator.
+        /// </summary>
+        /// <param name="inputValue">Input value.</param>
+        /// <returns>Instance of constant generator.</returns>
         public ConstGenerator Generator(int inputValue)
         {
             return new ConstGenerator(inputValue);
         }
     }
 
+    /// <summary>
+    /// Fabric of Counter Generators.
+    /// </summary>
     internal class CounterGeneratorFabric : IGeneratorFabric<CounterGenerator>
     {
+        /// <summary>
+        /// Counter generator.
+        /// </summary>
+        /// <param name="inputValue">Input value.</param>
+        /// <returns>Instance of counter generator.</returns>
         public CounterGenerator Generator(int inputValue)
         {
             return new CounterGenerator(inputValue);
