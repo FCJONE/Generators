@@ -70,9 +70,6 @@ namespace Generators
         /// </summary>
         public int Next { get; }
         
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="inputValue">Value to generate and hold into "Next" field.</param>
         public ConstGenerator(int inputValue = 0)
         {
@@ -88,15 +85,14 @@ namespace Generators
         /// <summary>
         /// Contains constant value, which is inpputed on CounterGenerator instance creation.
         /// </summary>
-        public int Next;
+        public int Next => ++_next;
 
-        /// <summary>
-        /// 
-        /// </summary>
+        private int _next;
+
         /// <param name="inputValue">Value to generate and hold into "Next" field.</param>
         public CounterGenerator(int inputValue = 0)
         {
-            Next = inputValue + 1;
+            _next = inputValue;
         }
     }
 
