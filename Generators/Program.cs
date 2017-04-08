@@ -58,7 +58,7 @@ namespace Generators
     {
         public int Next { get; }
 
-        public ConstGenerator(int inputValue)
+        public ConstGenerator(int inputValue = 0)
         {
             Next = inputValue;
         }
