@@ -4,9 +4,16 @@ namespace Generators
 {
     internal class Program
     {
+
+
+        /// <summary>
+        /// Main program.
+        /// </summary>
         private static void Main()
         {
             int intValue;
+
+            Console.Write(@"Type in integer value: ");
 
             while (!int.TryParse(Console.ReadLine(), out intValue))
             {
@@ -14,11 +21,16 @@ namespace Generators
             }
 
             Console.WriteLine(@"Constant : {0}", new ConstGeneratorFabric().Generator(intValue).Next);
-            Console.WriteLine(@"Constant : {0}", new CounterGeneratorFabric().Generator(intValue).Next);
+            Console.WriteLine(@"Counter: {0}", new CounterGeneratorFabric().Generator(intValue).Next);
 
             Console.ReadKey();
         }
+
+
     }
+
+
+
 
 
     /// <summary>
@@ -33,6 +45,11 @@ namespace Generators
     {
         T Generator(int inputValue);
     }
+
+
+
+
+
 
     /// <summary>
     /// Generators of integer value.
@@ -57,6 +74,10 @@ namespace Generators
             _next = inputValue;
         }
     }
+
+
+
+
 
 
     /// <summary>
